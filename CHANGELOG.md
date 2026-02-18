@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 (2026-02-18)
+
+Cowork integration and go-to-market update.
+
+### Added
+- **Cowork session lifecycle** — Full session management for long-running, multi-step tasks
+- **`/codeledger:cowork-start`** — Start a Cowork session with knowledge-scored context selection
+- **`/codeledger:cowork-refresh`** — Re-score the bundle mid-session when focus shifts
+- **`/codeledger:cowork-snapshot`** — Write a progress snapshot for session continuity
+- **PreCompact Cowork hook** — Automatically snapshots Cowork state before context compaction
+- **Knowledge scoring mode** — Optimized signal weights for codebase understanding tasks
+
+### Changed
+- **README rewritten for GTM** — Quality metrics (100% recall, 62.5% precision), two-mode messaging, install quickstart, architecture diagram
+- **Plugin manifest v0.3.0** — Added Cowork keywords (cowork, session-continuity, knowledge-scoring, context-governor)
+
 ## 0.2.1 (2026-02-18)
 
 ### Fixed

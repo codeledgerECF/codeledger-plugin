@@ -1,7 +1,7 @@
 {
   "name": "codeledger",
-  "version": "0.2.1",
-  "description": "Deterministic context selection for AI coding agents. Scans your repo, scores file relevance for a given task, and delivers a minimal, ranked context bundle so your agent reads the right files first.",
+  "version": "0.3.0",
+  "description": "Deterministic context selection for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes Cowork session lifecycle for long-running tasks with automatic progress snapshots and session continuity.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
     "url": "https://codeledger.dev"
@@ -19,6 +19,10 @@
     "scoring",
     "relevance",
     "token-budget",
-    "dependency-graph"
+    "dependency-graph",
+    "cowork",
+    "session-continuity",
+    "knowledge-scoring",
+    "context-governor"
   ]
 }
