@@ -1,0 +1,24 @@
+{
+  "name": "codeledger",
+  "version": "0.2.0",
+  "description": "Deterministic context selection for AI coding agents. Scans your repo, scores file relevance for a given task, and delivers a minimal, ranked context bundle so your agent reads the right files first.",
+  "author": {
+    "name": "Intelligent Context AI, Inc.",
+    "url": "https://codeledger.dev"
+  },
+  "homepage": "https://codeledger.dev",
+  "repository": "https://github.com/codeledgerECF/codeledger-plugin",
+  "license": "MIT",
+  "keywords": [
+    "context",
+    "context-selection",
+    "agent",
+    "coding-agent",
+    "deterministic",
+    "bundle",
+    "scoring",
+    "relevance",
+    "token-budget",
+    "dependency-graph"
+  ]
+}
