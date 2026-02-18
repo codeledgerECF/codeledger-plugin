@@ -1,6 +1,6 @@
 {
   "name": "codeledger",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Deterministic context selection for AI coding agents. Scans your repo, scores file relevance for a given task, and delivers a minimal, ranked context bundle so your agent reads the right files first.",
   "author": {
     "name": "Intelligent Context AI, Inc.",

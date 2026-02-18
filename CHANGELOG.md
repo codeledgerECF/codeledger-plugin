@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 (2026-02-18)
+
+### Fixed
+- Requires CLI v0.2.1 — adds early `--agentCmd`/`--guided` validation to `compare` and `run` commands so missing agent configuration is caught before execution begins
+
 ## 0.2.0 (2026-02-18)
 
 Initial plugin release for the Claude Code Plugin Directory.
