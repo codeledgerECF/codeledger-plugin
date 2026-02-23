@@ -1,5 +1,75 @@
 # Changelog
 
+## 0.5.0 (2026-02-23)
+
+Multi-language scanning, auto-scope inference, CI governance pipeline, and onboarding improvements.
+
+### Added
+
+#### Language-Agnostic Scanning
+- **Built-in language registry** — 42 file extensions across 15 language families. Auto-detects language from file extension with no configuration required.
+- **Python deep support** — Relative and absolute import resolution, `test_`/`_test.py` test mapping, `def`/`class`/`async def` keyword extraction.
+- **Go deep support** — `go.mod` module-local import resolution, `_test.go` test mapping, `func`/`type`/`var`/`const` keyword extraction.
+- **`.codeledgerignore`** — New ignore file (same syntax as `.gitignore`) for excluding paths from indexing.
+
+#### Auto-Scope Inference
+- **`inferScope()`** — Automatically detects service/package names in task descriptions (e.g., `api-gateway`, `stripe_billing`) and restricts context to matching directories. No `--scope` flag needed.
+- **Three-level fallback** — CLI `--scope` > config `default_scope` > auto-inference > no scope.
+
+#### CI / Enterprise Governance
+- **`codeledger setup-ci`** — One-command CI onboarding. Generates GitHub Actions workflow + policy file.
+- **`codeledger manifest`** — Deterministic context manifest for CI evidence.
+- **`codeledger sign-manifest`** — HMAC-SHA256 manifest signing with JCS canonicalization.
+- **`codeledger policy`** — Cascading policy resolution with three enforcement modes.
+- **`codeledger verify`** — CI enforcement with 5 violation codes and structured artifacts.
+- **`codeledger doctor`** — Integration health check (8 checks).
+
+#### Onboarding UX
+- **Simplified `init` output** — One clear CTA with discoverable flags.
+- **Readable `--explain` table** — Human-readable headers and actionable tips.
+- **Cleaner `activate` output** — Inline confidence, LOW-confidence guidance.
+
+### Changed
+- **Plugin manifest v0.5.0** — Updated description, added CI/governance keywords.
+
+### Fixed
+
+- **Test-task scoring** — "Run tests" and similar execution-verb tasks now correctly prioritize test files. `test_relevance` weight boosted 2.5×, test file patterns added to acceptance surface.
+
+### Test Coverage
+- 167 adversarial smoke tests covering all CLI commands and edge cases
+- Full suite: 915 tests passing
+
+## 0.4.0 (2026-02-20)
+
+Agent governance layer: Phase 2 + Phase 3 + Intent Governance.
+
+### Added
+
+#### Phase 2: Agent Governance Differentiation
+- **Loop Detection & Circuit-Breaker** — Deterministic stuck-agent detection from event ledger patterns (repeated test failures, file edit loops, command retries). Configurable thresholds with `stuck_signal` events.
+- **Scope Contract Enforcement** — Bundle-derived scope boundaries (selected files + dependency neighbors). Enforcement levels: `warn` (default), `strict`, `off`. Tracks `scope_drift_count` in session summary.
+- **Cross-Session Conflict Zones** — Detects file overlap between concurrent agent sessions. Warns when multiple sessions target the same files. Reports `conflict_zone_touches` in session summary.
+
+#### Phase 3: Strategic Expansion
+- **`codeledger checkpoint`** — Create, restore, and list incremental work-in-progress snapshots. Enables resume after interruption (rate limits, crashes). Auto-checkpoint on activate.
+- **`codeledger shared-summary`** — Cross-session coordination summary with overlap matrix, per-session metrics, and hotspot detection for multi-agent orchestration.
+- **Commit-Aware Bundle Invalidation** — Marks bundled files as "addressed" when committed. Suggests bundle refresh when staleness >= 75%. Prevents re-review parroting.
+
+#### Intent Governance Layer
+- **`codeledger intent init`** — Create a structured task contract (objective, deliverable, scope, constraints, acceptance criteria, risk flags).
+- **`codeledger intent show`** — Display baseline vs current contract with per-field drift distances.
+- **`codeledger intent set`** — Update contract fields mid-session with automatic drift event logging.
+- **`codeledger intent ack`** — Acknowledge drift (accept as new baseline or as known deviation).
+- **Deterministic drift scoring** — Weighted Jaccard + set distance across 7 contract fields. Thresholds: NONE (<0.10), MINOR (0.10–0.24), MAJOR (0.25–0.44), CRITICAL (>=0.45).
+- **Auto-initialization** — Intent contract created automatically on first `activate` from task text.
+- **Soft-blocking** — CRITICAL drift blocks `activate`/`refine` until acknowledged.
+- **Integrated** into activate, session-summary, session-progress, and bundle injection.
+
+### Test Coverage
+- 84 new tests: Phase 2 (21), Phase 3 (22), Intent Governance (41)
+- Full suite: 636 tests passing
+
 ## 0.3.0 (2026-02-18)
 
 Cowork integration and go-to-market update.

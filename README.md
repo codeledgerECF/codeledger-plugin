@@ -2,7 +2,7 @@
 
 **Your agent reads the right files first. Every time.**
 
-CodeLedger is a deterministic context selection engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase.
+CodeLedger is a deterministic context selection and agent governance engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase. v0.5.0 adds CI governance, multi-language scanning, and improved onboarding UX.
 
 ## Why CodeLedger
 
@@ -99,6 +99,21 @@ These fire automatically — no user action needed:
 | `/codeledger:cowork-start` | Start a Cowork session: scan + knowledge-scored bundle |
 | `/codeledger:cowork-refresh` | Re-score with updated intent mid-session |
 | `/codeledger:cowork-snapshot` | Write a progress snapshot for session continuity |
+
+### CLI Commands (v0.5.0)
+
+Beyond slash commands, these CLI commands are available for direct use:
+
+| Command | Purpose |
+|---------|---------|
+| `codeledger doctor` | Integration health check (config, hooks, index, ledger) |
+| `codeledger setup-ci --mode warn` | Generate GitHub Actions workflow + policy for CI |
+| `codeledger manifest --task "..."` | Generate deterministic context manifest |
+| `codeledger verify --task "..."` | CI enforcement: evaluate policy, emit artifacts |
+| `codeledger intent show` | Display task drift score and per-field distances |
+| `codeledger intent ack` | Acknowledge drift when prompted |
+| `codeledger checkpoint create` | Save work-in-progress snapshot |
+| `codeledger shared-summary` | Cross-session coordination summary |
 
 ## Scoring Signals
 

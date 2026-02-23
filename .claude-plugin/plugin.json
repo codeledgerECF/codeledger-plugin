@@ -1,7 +1,7 @@
 {
   "name": "codeledger",
-  "version": "0.3.0",
-  "description": "Deterministic context selection for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes Cowork session lifecycle for long-running tasks with automatic progress snapshots and session continuity.",
+  "version": "0.5.0",
+  "description": "Deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes CI governance pipeline, intent drift detection, Cowork session lifecycle, and multi-language scanning.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
     "url": "https://codeledger.dev"
@@ -23,6 +23,10 @@
     "cowork",
     "session-continuity",
     "knowledge-scoring",
-    "context-governor"
+    "context-governor",
+    "ci-governance",
+    "intent-governance",
+    "multi-language",
+    "policy"
   ]
 }
