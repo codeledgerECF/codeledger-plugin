@@ -1,6 +1,6 @@
 {
   "name": "codeledger",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes CI governance pipeline, intent drift detection, Cowork session lifecycle, and multi-language scanning.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
