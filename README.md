@@ -2,7 +2,7 @@
 
 **Your agent reads the right files first. Every time.**
 
-CodeLedger is a deterministic context selection and agent governance engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase. v0.5.0 adds CI governance, multi-language scanning, and improved onboarding UX.
+CodeLedger is a deterministic context selection and agent governance engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase. Works with Claude Code, Codex, Cursor, Gemini CLI, Aider, and more. See the [changelog](https://github.com/codeledgerECF/codeledger/releases) for the latest improvements.
 
 ## Why CodeLedger
 
