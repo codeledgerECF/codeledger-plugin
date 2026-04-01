@@ -5,6 +5,8 @@ description: Generate a context bundle for a task. Scans the repo if stale, scor
 
 Run `codeledger activate` to generate a targeted context bundle for the current task.
 
+If you are already in a live session and the task just shifted, prefer `/codeledger:refresh` first. Use `activate` when you want to force a manual bundle write.
+
 ## What to run
 
 ```bash

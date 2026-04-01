@@ -1,6 +1,6 @@
 {
   "name": "codeledger",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes CI governance pipeline, intent drift detection, Cowork session lifecycle, and multi-language scanning.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
@@ -9,6 +9,55 @@
   "homepage": "https://codeledger.dev",
   "repository": "https://github.com/codeledgerECF/codeledger-plugin",
   "license": "MIT",
+  "skills": [
+    {
+      "name": "activate",
+      "path": "skills/activate/SKILL.md",
+      "description": "Generate a context bundle for a task"
+    },
+    {
+      "name": "refresh",
+      "path": "skills/refresh/SKILL.md",
+      "description": "Refresh context for a new or shifted task before raw search"
+    },
+    {
+      "name": "current",
+      "path": "skills/current/SKILL.md",
+      "description": "Inspect the current bundle, delta, and recent truth tail"
+    },
+    {
+      "name": "timeline",
+      "path": "skills/timeline/SKILL.md",
+      "description": "Inspect the recent truth-ledger tail"
+    },
+    {
+      "name": "status",
+      "path": "skills/status/SKILL.md",
+      "description": "Inspect session metrics and broker state"
+    }
+  ],
+  "hooks": {
+    "SessionStart": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/activate.sh",
+      "timeout": 30
+    },
+    "UserPromptSubmit": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/context-refresh.sh",
+      "timeout": 15
+    },
+    "PreToolUse": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/check-bundle.sh",
+      "timeout": 5
+    },
+    "PreCompact": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-progress.sh",
+      "timeout": 10
+    },
+    "Stop": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-summary.sh",
+      "timeout": 10
+    }
+  },
   "keywords": [
     "context",
     "context-selection",

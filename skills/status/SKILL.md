@@ -10,6 +10,12 @@ Check the current CodeLedger session status.
 Run these commands to understand the current state:
 
 ```bash
+# Inspect active broker state first
+codeledger broker current --json
+
+# Inspect recent truth tail
+codeledger broker timeline --limit 10 --json
+
 # Show session-end metrics (recall, precision, token savings)
 codeledger session-summary
 
@@ -36,6 +42,11 @@ codeledger sessions
 ### sessions
 - All active CodeLedger sessions
 - File overlap between concurrent sessions (collision detection)
+
+### broker current / timeline
+- **Current bundle** — what files CodeLedger thinks matter right now
+- **Bundle delta** — what changed after the latest task shift
+- **Timeline tail** — what was actually observed, validated, blocked, or corrected recently
 
 ## Interpreting results
 

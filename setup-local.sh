@@ -57,6 +57,13 @@ cat > "$HOOKS_FILE" << JSONEOF
         "timeout": 30000
       }
     ],
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "${PLUGIN_DIR}/scripts/context-refresh.sh",
+        "timeout": 15000
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit|NotebookEdit",
@@ -95,5 +102,6 @@ echo "Done! Next steps:"
 echo "  1. Open Claude Desktop"
 echo "  2. Start a session in any project"
 echo "  3. CodeLedger will auto-activate on session start"
-echo "  4. Use /codeledger:activate or /codeledger:cowork-start to generate bundles"
+echo "  4. Meaningful prompts will refresh context automatically during the session"
+echo "  5. Use /codeledger:refresh, /codeledger:current, or /codeledger:timeline for explicit broker-first retrieval"
 echo ""

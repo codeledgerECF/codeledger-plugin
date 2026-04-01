@@ -49,6 +49,28 @@ codeledger activate --task "describe your task here"
 
 This single command initializes CodeLedger (if needed), scans the repo, scores all files against your task, and writes `.codeledger/active-bundle.md` with the result.
 
+## Native In-Session Parity
+
+The plugin now matches the repo-local CLI and broker flow:
+
+- Session start warms CodeLedger automatically
+- meaningful prompts refresh context automatically during the session
+- broker-first retrieval is available before raw search
+
+Use these broker surfaces when you want explicit, structured context during a live session:
+
+```bash
+codeledger broker refresh --task "your updated task" --json
+codeledger broker current --json
+codeledger broker timeline --limit 10 --json
+```
+
+The intended order is:
+
+1. CodeLedger broker refresh
+2. CodeLedger broker resolve/current/timeline as needed
+3. raw search like `rg` only as fallback
+
 ## Two Modes, One Plugin
 
 ### Mode 1: Standalone Context Selection
@@ -76,6 +98,7 @@ These fire automatically — no user action needed:
 | Event | What Happens |
 |-------|-------------|
 | **SessionStart** | Initializes CodeLedger, scans the repo index (if stale >1hr), warms the cache |
+| **UserPromptSubmit** | Applies the meaningful-task rule and refreshes broker artifacts for new task prompts |
 | **PreToolUse** | On Edit/Write, reminds the agent to check `.codeledger/active-bundle.md` for relevant context (once per session) |
 | **PreCompact** | Writes a ground-truth session progress snapshot to `.codeledger/session-progress.md` so the agent re-orients after compaction |
 | **Stop** | Prints session-end recall, precision, and token savings; cleans up transient files |
@@ -87,9 +110,12 @@ These fire automatically — no user action needed:
 | Command | Purpose |
 |---------|---------|
 | `/codeledger:activate` | Generate and write a context bundle for a task |
+| `/codeledger:refresh` | Broker-first refresh for a new or shifted task |
 | `/codeledger:bundle` | Preview a bundle without writing to disk |
 | `/codeledger:refine` | Update the bundle mid-session with new learned context |
 | `/codeledger:explain` | Detailed per-file scoring breakdown with near-misses |
+| `/codeledger:current` | Inspect current bundle, delta, and recent timeline |
+| `/codeledger:timeline` | Inspect the recent truth-ledger tail |
 | `/codeledger:status` | Check session metrics and progress |
 
 ### Cowork Lifecycle
