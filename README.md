@@ -71,6 +71,15 @@ The intended order is:
 2. CodeLedger broker resolve/current/timeline as needed
 3. raw search like `rg` only as fallback
 
+The plugin resolves the CLI in the same order as repo-local hooks:
+
+1. `./.codeledger/bin/codeledger`
+2. `node .codeledger/bin/codeledger-standalone.cjs`
+3. `node packages/cli/bin/codeledger-standalone.cjs`
+4. global `codeledger`
+
+Plugin hooks are also session-aware: they reuse the active `CODELEDGER_SESSION` or PID marker so refresh, progress, and summary operate on the same per-session bundle and truth state as the built-in hook flow.
+
 ## Two Modes, One Plugin
 
 ### Mode 1: Standalone Context Selection

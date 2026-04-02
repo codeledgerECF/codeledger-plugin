@@ -3,7 +3,13 @@
 # Outputs the command to use, or exits 1 if not found.
 set -euo pipefail
 
-if command -v codeledger >/dev/null 2>&1; then
+if [ -x ".codeledger/bin/codeledger" ]; then
+  echo "./.codeledger/bin/codeledger"
+elif [ -f ".codeledger/bin/codeledger-standalone.cjs" ]; then
+  echo "node .codeledger/bin/codeledger-standalone.cjs"
+elif [ -f "packages/cli/bin/codeledger-standalone.cjs" ]; then
+  echo "node packages/cli/bin/codeledger-standalone.cjs"
+elif command -v codeledger >/dev/null 2>&1; then
   echo "codeledger"
 elif [ -x "node_modules/.bin/codeledger" ]; then
   echo "node_modules/.bin/codeledger"

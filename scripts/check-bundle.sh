@@ -3,6 +3,9 @@
 # Only fires once per session (uses a marker file to avoid spamming).
 set -euo pipefail
 
+PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
+
 # Read tool name from stdin (JSON hook input)
 TOOL_NAME=""
 if command -v jq >/dev/null 2>&1; then
@@ -15,13 +18,20 @@ case "$TOOL_NAME" in
   *) exit 0 ;;
 esac
 
-MARKER=".codeledger/.hook-reminded"
+if [ -n "$CL_SID" ]; then
+  MARKER=".codeledger/sessions/$CL_SID/.hook-reminded"
+  BUNDLE=".codeledger/sessions/$CL_SID/active-bundle.md"
+else
+  MARKER=".codeledger/.hook-reminded"
+  BUNDLE=".codeledger/active-bundle.md"
+fi
+
 if [ -f "$MARKER" ]; then
   exit 0
 fi
 
-if [ -f ".codeledger/active-bundle.md" ]; then
-  mkdir -p .codeledger
+if [ -f "$BUNDLE" ]; then
+  mkdir -p "$(dirname "$MARKER")"
   touch "$MARKER"
-  echo "CodeLedger: Active context bundle at .codeledger/active-bundle.md — check it for relevant files, excerpts, and dependency relationships before editing."
+  echo "CodeLedger: Active context bundle at $BUNDLE — check it for relevant files, excerpts, and dependency relationships before editing."
 fi

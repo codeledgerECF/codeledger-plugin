@@ -41,10 +41,20 @@ fi
 
 mkdir -p .codeledger/runtime
 
+CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
+
 # Apply the same meaningful-task rule used by hooks and ambient wrappers.
-$CL_CMD auto-refresh --quiet --prompt "$PROMPT" >/dev/null 2>&1 || true
+if [ -n "$CL_SID" ]; then
+  $CL_CMD auto-refresh --quiet --prompt "$PROMPT" --session "$CL_SID" >/dev/null 2>&1 || true
+else
+  $CL_CMD auto-refresh --quiet --prompt "$PROMPT" >/dev/null 2>&1 || true
+fi
 
 # Persist the latest plugin-facing retrieval state for agents to inspect during the session.
-$CL_CMD broker refresh --task "$PROMPT" --json > .codeledger/runtime/latest-broker-refresh.json 2>/dev/null || true
+if [ -n "$CL_SID" ]; then
+  $CL_CMD broker refresh --task "$PROMPT" --session "$CL_SID" --json > .codeledger/runtime/latest-broker-refresh.json 2>/dev/null || true
+else
+  $CL_CMD broker refresh --task "$PROMPT" --json > .codeledger/runtime/latest-broker-refresh.json 2>/dev/null || true
+fi
 $CL_CMD broker current --json > .codeledger/runtime/latest-broker-current.json 2>/dev/null || true
 $CL_CMD broker timeline --limit 10 --json > .codeledger/runtime/latest-broker-timeline.json 2>/dev/null || true
