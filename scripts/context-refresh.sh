@@ -149,3 +149,4 @@ else
 fi
 $CL_CMD broker current --json > .codeledger/runtime/latest-broker-current.json 2>/dev/null || true
 $CL_CMD broker timeline --limit 10 --json > .codeledger/runtime/latest-broker-timeline.json 2>/dev/null || true
+printf '%s\n' '{"schema_version":"codeledger/broker-first/v1","policy":"broker_first","refresh_artifact":".codeledger/runtime/latest-broker-refresh.json","current_artifact":".codeledger/runtime/latest-broker-current.json","timeline_artifact":".codeledger/runtime/latest-broker-timeline.json","raw_search":"fallback_after_broker_insufficient"}' > .codeledger/runtime/latest-broker-contract.json 2>/dev/null || true

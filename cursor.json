@@ -1,0 +1,93 @@
+{
+  "name": "codeledger",
+  "version": "0.10.11",
+  "displayName": "CodeLedger",
+  "description": "Deterministic context selection for AI coding agents. Scores every file across 10 signals, delivers a ranked bundle within a token budget, and exposes a live context cockpit so agents always read the right files first.",
+  "icon": "logo.svg",
+  "publisher": "codeledger",
+  "license": "MIT",
+  "homepage": "https://codeledger.dev",
+  "repository": "https://github.com/codeledgerECF/codeledger-plugin",
+  "keywords": ["context", "mcp", "agent", "codebase", "deterministic"],
+  "mcp": {
+    "servers": {
+      "codeledger": {
+        "command": "node",
+        "args": ["${workspaceFolder}/.codeledger/bin/codeledger-standalone.cjs", "mcp", "start"],
+        "fallback": {
+          "command": "codeledger",
+          "args": ["mcp", "start"]
+        },
+        "env": {
+          "CODELEDGER_REPO_ROOT": "${workspaceFolder}"
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "query_ledger",
+      "description": "Search Golden Patterns and episodes from repo memory for a task"
+    },
+    {
+      "name": "get_active_context",
+      "description": "Return the current active context bundle to the agent"
+    },
+    {
+      "name": "record_interaction",
+      "description": "Write success/failure signals into the evidence buffer"
+    },
+    {
+      "name": "prompt_validate",
+      "description": "Score a task prompt against best practices before execution"
+    },
+    {
+      "name": "codeledger_replay",
+      "description": "Search retained terminal flows for prior execution patterns"
+    },
+    {
+      "name": "codeledger_recent_flows",
+      "description": "Retrieve recent retained operational execution history"
+    },
+    {
+      "name": "codeledger_flow_explain",
+      "description": "Explain why a specific flow was kept by the Context Sieve"
+    },
+    {
+      "name": "codeledger_reason",
+      "description": "Synthesis with pre-reasoning gating — FAST / GUIDED / FULL modes"
+    },
+    {
+      "name": "codeledger_system_map",
+      "description": "System topology — blast radius, component roles, invariants"
+    },
+    {
+      "name": "codeledger_context_pointers",
+      "description": "Bootstrap guidance — canonical docs and entry points for a scope"
+    },
+    {
+      "name": "codeledger_execution_prompt",
+      "description": "Generate a repo-aware Reality Loop execution prompt for a task"
+    },
+    {
+      "name": "panel_snapshot",
+      "description": "Full context cockpit snapshot: bundle, status, annotations, cert state"
+    },
+    {
+      "name": "panel_brief",
+      "description": "Focused markdown brief for the Explain, Learnings, or Next tab"
+    },
+    {
+      "name": "panel_handoff",
+      "description": "Scoped handoff: top files to inspect, risk notes, verification commands"
+    }
+  ],
+  "rules": [
+    {
+      "path": "rules/codeledger.mdc"
+    }
+  ],
+  "requirements": {
+    "node": ">=20.0.0"
+  }
+}

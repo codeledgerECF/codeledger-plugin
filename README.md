@@ -71,6 +71,11 @@ The intended order is:
 2. CodeLedger broker resolve/current/timeline as needed
 3. raw search like `rg` only as fallback
 
+The broker response includes `retrievalContract.schema_version: "codeledger/broker-first/v1"`.
+The plugin hook also writes `.codeledger/runtime/latest-broker-contract.json` beside the
+latest refresh/current/timeline artifacts so agent sessions can verify the broker-first
+order before using raw search.
+
 The plugin resolves the CLI in the same order as repo-local hooks:
 
 1. `./.codeledger/bin/codeledger`

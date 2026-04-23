@@ -1,0 +1,44 @@
+---
+description: CodeLedger context selection — use MCP tools before browsing files
+alwaysApply: true
+---
+
+# CodeLedger Context Protocol
+
+CodeLedger MCP tools are available in this workspace. Follow this order before editing code:
+
+## Before Starting Any Task
+
+1. Call `get_active_context` with your task intent — it returns a pre-scored, ranked bundle of the most relevant files.
+2. Read the files listed in the bundle **before** browsing or searching manually.
+3. If the bundle confidence is LOW, call `query_ledger` with the task intent to refine.
+
+## When to Use Each Tool
+
+| Situation | Tool to call |
+|-----------|-------------|
+| Starting a new task | `get_active_context` with `intent` |
+| Need orientation in an unfamiliar scope | `codeledger_context_pointers` |
+| Task spans multiple components | `codeledger_system_map` |
+| Debugging or operational task | `codeledger_replay` |
+| Need structured execution guidance | `codeledger_execution_prompt` |
+| Want a cockpit overview of repo state | `panel_snapshot` |
+| Handing off to another agent | `panel_handoff` |
+| After completing a task | `record_interaction` with outcome |
+
+## Do NOT
+
+- Browse files randomly before calling `get_active_context`
+- Skip `record_interaction` after a task — outcome signals compound into repo memory
+- Use raw file search as the first step — the bundle is faster and more precise
+
+## Panel Preview (local only)
+
+The context cockpit is also available as a live browser panel:
+
+```bash
+node .claude/panel-server.mjs
+# → http://localhost:7420
+```
+
+Three tabs refresh every 10 seconds: **Explain** (active bundle), **Learnings** (promoted patterns), **Next** (suggested actions).
