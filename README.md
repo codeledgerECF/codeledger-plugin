@@ -97,7 +97,7 @@ Use `/codeledger:activate` at the start of any task. The agent gets a ranked bun
 
 ### Mode 2: Cowork Session Integration
 
-For long-running, multi-step work, Cowork mode adds lifecycle management — the plugin automatically initializes context on session start, takes progress snapshots before compaction, and prints recall/precision metrics when the session ends.
+For long-running, multi-step work, Cowork mode adds lifecycle management — the plugin automatically runs a session bootstrap on session start (`ensure-session`: init-if-missing + warm scan/index), takes progress snapshots before compaction, and prints recall/precision metrics when the session ends.
 
 ```
 /codeledger:cowork-start Refactor the authentication middleware
@@ -111,7 +111,7 @@ These fire automatically — no user action needed:
 
 | Event | What Happens |
 |-------|-------------|
-| **SessionStart** | Initializes CodeLedger, scans the repo index (if stale >1hr), warms the cache |
+| **SessionStart** | Runs `ensure-session` (init-if-missing + scan-if-stale warmup), then starts session-aware context flow |
 | **UserPromptSubmit** | Applies the meaningful-task rule and refreshes broker artifacts for new task prompts |
 | **PreToolUse** | On Edit/Write, reminds the agent to check `.codeledger/active-bundle.md` for relevant context (once per session) |
 | **PreCompact** | Writes a ground-truth session progress snapshot to `.codeledger/session-progress.md` so the agent re-orients after compaction |

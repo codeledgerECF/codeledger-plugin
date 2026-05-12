@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# activate.sh — SessionStart hook: initialize CodeLedger and warm the repo index.
-# Runs `codeledger init` if not initialized, then `codeledger activate --quiet`.
+# activate.sh — SessionStart hook: ensure CodeLedger runtime and warm context.
+# Uses `codeledger ensure-session` to auto-init when needed, then scan-if-stale.
 set -euo pipefail
 
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -9,19 +9,14 @@ CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
   exit 0
 }
 
-# Auto-initialize if no config exists
-if [ ! -f ".codeledger/config.json" ]; then
-  $CL_CMD init --quiet 2>/dev/null || true
-fi
-
 CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 if [ -z "$CL_SID" ]; then
   CL_SID=$($CL_CMD session-init --quiet 2>/dev/null) || true
 fi
 
-# Activate: scan if stale (>1hr), write the active bundle for this session when available.
+# Ensure runtime: init-if-missing + scan-if-stale warmup for this session.
 if [ -n "$CL_SID" ]; then
-  $CL_CMD activate --quiet --stale-after 3600 --session "$CL_SID" 2>/dev/null || true
+  $CL_CMD ensure-session --quiet --stale-after 3600 --session "$CL_SID" 2>/dev/null || true
 else
-  $CL_CMD activate --quiet --stale-after 3600 2>/dev/null || true
+  $CL_CMD ensure-session --quiet --stale-after 3600 2>/dev/null || true
 fi
