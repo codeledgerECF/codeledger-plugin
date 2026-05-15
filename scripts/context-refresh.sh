@@ -126,27 +126,24 @@ mkdir -p .codeledger/runtime
 
 CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 
-# Apply the same meaningful-task rule used by hooks and ambient wrappers.
-if [ -n "$CL_SID" ]; then
-  if [ -n "$ASSISTANT_TASK" ]; then
-    $CL_CMD auto-refresh --quiet --prompt "$PROMPT" --assistant-proposed-task "$ASSISTANT_TASK" --session "$CL_SID" >/dev/null 2>&1 || true
-  else
-    $CL_CMD auto-refresh --quiet --prompt "$PROMPT" --session "$CL_SID" >/dev/null 2>&1 || true
-  fi
-else
-  if [ -n "$ASSISTANT_TASK" ]; then
-    $CL_CMD auto-refresh --quiet --prompt "$PROMPT" --assistant-proposed-task "$ASSISTANT_TASK" >/dev/null 2>&1 || true
-  else
-    $CL_CMD auto-refresh --quiet --prompt "$PROMPT" >/dev/null 2>&1 || true
-  fi
-fi
-
 # Persist the latest plugin-facing retrieval state for agents to inspect during the session.
+# `broker sync` applies the meaningful-task rule and writes these artifacts in one
+# CLI process:
+# - .codeledger/runtime/latest-broker-refresh.json
+# - .codeledger/runtime/latest-broker-current.json
+# - .codeledger/runtime/latest-broker-timeline.json
+# - .codeledger/runtime/latest-broker-contract.json
+# The contract artifact uses schema codeledger/broker-first/v1.
 if [ -n "$CL_SID" ]; then
-  $CL_CMD broker refresh --task "$EFFECTIVE_TASK" --session "$CL_SID" --json > .codeledger/runtime/latest-broker-refresh.json 2>/dev/null || true
+  if [ -n "$ASSISTANT_TASK" ]; then
+    $CL_CMD broker sync --quiet --prompt "$PROMPT" --assistant-proposed-task "$ASSISTANT_TASK" --task "$EFFECTIVE_TASK" --session "$CL_SID" >/dev/null 2>&1 || true
+  else
+    $CL_CMD broker sync --quiet --prompt "$PROMPT" --task "$EFFECTIVE_TASK" --session "$CL_SID" >/dev/null 2>&1 || true
+  fi
 else
-  $CL_CMD broker refresh --task "$EFFECTIVE_TASK" --json > .codeledger/runtime/latest-broker-refresh.json 2>/dev/null || true
+  if [ -n "$ASSISTANT_TASK" ]; then
+    $CL_CMD broker sync --quiet --prompt "$PROMPT" --assistant-proposed-task "$ASSISTANT_TASK" --task "$EFFECTIVE_TASK" >/dev/null 2>&1 || true
+  else
+    $CL_CMD broker sync --quiet --prompt "$PROMPT" --task "$EFFECTIVE_TASK" >/dev/null 2>&1 || true
+  fi
 fi
-$CL_CMD broker current --json > .codeledger/runtime/latest-broker-current.json 2>/dev/null || true
-$CL_CMD broker timeline --limit 10 --json > .codeledger/runtime/latest-broker-timeline.json 2>/dev/null || true
-printf '%s\n' '{"schema_version":"codeledger/broker-first/v1","policy":"broker_first","refresh_artifact":".codeledger/runtime/latest-broker-refresh.json","current_artifact":".codeledger/runtime/latest-broker-current.json","timeline_artifact":".codeledger/runtime/latest-broker-timeline.json","raw_search":"fallback_after_broker_insufficient"}' > .codeledger/runtime/latest-broker-contract.json 2>/dev/null || true

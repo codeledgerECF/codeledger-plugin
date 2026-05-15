@@ -56,6 +56,8 @@ The plugin now matches the repo-local CLI and broker flow:
 - Session start warms CodeLedger automatically
 - meaningful prompts refresh context automatically during the session
 - broker-first retrieval is available before raw search
+- plugin hooks use `codeledger broker sync` to apply the meaningful-task rule and
+  write refresh/current/timeline artifacts in one CLI call
 
 Use these broker surfaces when you want explicit, structured context during a live session:
 

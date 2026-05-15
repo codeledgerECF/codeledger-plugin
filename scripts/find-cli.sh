@@ -19,8 +19,6 @@ else
   MONO_CLI="${SCRIPT_DIR}/../../codeledger-blackbox/packages/cli/dist/index.js"
   if [ -f "$MONO_CLI" ]; then
     echo "node $MONO_CLI"
-  elif command -v npx >/dev/null 2>&1 && npx codeledger --version >/dev/null 2>&1; then
-    echo "npx codeledger"
   else
     exit 1
   fi
