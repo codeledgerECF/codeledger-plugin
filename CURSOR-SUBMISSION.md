@@ -1,4 +1,4 @@
-# Cursor Marketplace Submission — CodeLedger
+# Cursor Marketplace Submission — ContextECF CodeLedger
 
 Fill in this form at https://cursor.com/en/marketplace/publish
 
@@ -114,9 +114,12 @@ In `.cursor/mcp.json` (or Cursor Settings → MCP):
 
 ### 3. Initialize in your repo
 ```bash
+npm install -g @codeledger/cli
 codeledger init
-codeledger activate --task "describe your task"
+codeledger ready --task "describe your task"
 ```
+
+Use the scoped `@codeledger/cli` package. Do not install the unrelated unscoped `codeledger` npm package.
 
 ### 4. Optional: live context panel
 ```bash

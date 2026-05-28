@@ -1,14 +1,14 @@
 {
   "name": "codeledger",
-  "version": "0.10.11",
-  "displayName": "CodeLedger",
-  "description": "Deterministic context selection for AI coding agents. Scores every file across 10 signals, delivers a ranked bundle within a token budget, and exposes a live context cockpit so agents always read the right files first.",
+  "version": "0.10.23",
+  "displayName": "ContextECF CodeLedger",
+  "description": "ContextECF CodeLedger: deterministic context selection for AI coding agents. Install the CLI from @codeledger/cli, not the unrelated unscoped codeledger package.",
   "icon": "logo.svg",
   "publisher": "codeledger",
   "license": "MIT",
   "homepage": "https://codeledger.dev",
   "repository": "https://github.com/codeledgerECF/codeledger-plugin",
-  "keywords": ["context", "mcp", "agent", "codebase", "deterministic"],
+  "keywords": ["contextecf", "codeledger", "context", "mcp", "agent", "codebase", "deterministic"],
   "mcp": {
     "servers": {
       "codeledger": {

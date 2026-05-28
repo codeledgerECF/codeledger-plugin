@@ -1,7 +1,7 @@
 {
   "name": "codeledger",
   "version": "0.10.23",
-  "description": "Deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Includes CI governance pipeline, intent drift detection, Cowork session lifecycle, and multi-language scanning.",
+  "description": "ContextECF CodeLedger: deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Install the CLI from @codeledger/cli, not the unrelated unscoped codeledger package.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
     "url": "https://codeledger.dev"
@@ -58,8 +58,32 @@
       "timeout": 10
     }
   },
+  "mcp": {
+    "servers": {
+      "codeledger": {
+        "command": "node",
+        "args": [
+          "${workspaceFolder}/.codeledger/bin/codeledger-standalone.cjs",
+          "mcp",
+          "start"
+        ],
+        "fallback": {
+          "command": "codeledger",
+          "args": [
+            "mcp",
+            "start"
+          ]
+        },
+        "env": {
+          "CODELEDGER_REPO_ROOT": "${workspaceFolder}"
+        }
+      }
+    }
+  },
   "keywords": [
     "context",
+    "contextecf",
+    "codeledger",
     "context-selection",
     "agent",
     "coding-agent",

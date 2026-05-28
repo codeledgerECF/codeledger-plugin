@@ -4,9 +4,10 @@ set -euo pipefail
 
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
-  echo "CodeLedger: CLI not installed. Run: npm install -g @codeledger/cli"
+  echo "ContextECF CodeLedger: CLI not installed. Run: npm install -g @codeledger/cli"
+  echo "Do not install the unrelated unscoped npm package: codeledger"
   exit 0
 }
 
 $CL_CMD cowork-snapshot "$@"
-echo "CodeLedger: Progress snapshot written to .codeledger/progress-snapshot.json — read it after compaction to re-orient."
+echo "ContextECF CodeLedger: Progress snapshot written to .codeledger/progress-snapshot.json — read it after compaction to re-orient."

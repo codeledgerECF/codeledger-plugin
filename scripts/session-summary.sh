@@ -6,7 +6,7 @@ set -euo pipefail
 # Clean up the one-shot reminder marker
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
-  echo 'Tip: Run "codeledger activate --task \"your next task\"" to generate context for your next task.'
+  echo 'Tip: Run "codeledger ready --task \"your next task\"" to generate context for your next task.'
   exit 0
 }
 
@@ -22,4 +22,4 @@ else
   rm -f .codeledger/.session-start-ref .codeledger/.activate-ref .codeledger/session-progress.md
 fi
 
-echo 'Tip: Run "codeledger activate --task \"your next task\"" to refresh context for your next task.'
+echo 'Tip: Run "codeledger ready --task \"your next task\"" to refresh context for your next task.'

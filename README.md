@@ -1,8 +1,8 @@
-# CodeLedger Plugin for Claude Code
+# ContextECF CodeLedger Plugin for Claude Code
 
 **Your agent reads the right files first. Every time.**
 
-CodeLedger is a deterministic context selection and agent governance engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase. Works with Claude Code, Codex, Cursor, Gemini CLI, Aider, and more. See the [changelog](https://github.com/codeledgerECF/codeledger/releases) for the latest improvements.
+ContextECF CodeLedger is a deterministic context selection and agent governance engine for AI coding agents. It scans your repository, scores every file across 10 weighted signals, and delivers a minimal, ranked context bundle — so your agent starts with the files that matter most, not a random walk through your codebase. Works with Claude Code, Codex, Cursor, Gemini CLI, Aider, and more. See the [changelog](https://github.com/codeledgerECF/codeledger/releases) for the latest improvements.
 
 ## Why CodeLedger
 
@@ -33,6 +33,8 @@ Every release is gated by automated quality benchmarks across real-world task sc
 npm install -g @codeledger/cli
 ```
 
+Use the scoped package exactly as shown. Do not install the unrelated unscoped `codeledger` npm package.
+
 Requires Node.js >= 20 and Git.
 
 ### 2. Install the Plugin
@@ -44,10 +46,10 @@ claude plugin install codeledger
 ### 3. One-Command Setup (in any project)
 
 ```bash
-codeledger activate --task "describe your task here"
+codeledger ready --task "describe your task here"
 ```
 
-This single command initializes CodeLedger (if needed), scans the repo, scores all files against your task, and writes `.codeledger/active-bundle.md` with the result.
+This single command initializes CodeLedger if needed, scans the repo, checks ambient setup, scores all files against your task, and writes `.codeledger/active-bundle.md` with the result.
 
 ## Native In-Session Parity
 
