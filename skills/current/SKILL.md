@@ -1,9 +1,9 @@
 ---
 name: current
-description: Inspect the current active bundle, latest bundle delta, and recent truth tail during a session. Use this when you need to understand what CodeLedger currently believes and how the context changed.
+description: See what files CodeLedger is focused on right now and what changed since the last task shift. Use this mid-session to stay oriented.
 ---
 
-Run `codeledger broker current` to inspect the active context state.
+Check what CodeLedger is currently focused on.
 
 ## What to run
 
@@ -11,12 +11,12 @@ Run `codeledger broker current` to inspect the active context state.
 codeledger broker current --json
 ```
 
-## What it returns
+## What it shows
 
-- current bundle id and task
-- top ranked files
-- latest bundle delta
-- recent timeline tail
+- Which task is active
+- The top-ranked files for the current task
+- What changed when the task last shifted
+- A summary of recent session activity
 
 ## Example
 

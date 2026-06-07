@@ -1,11 +1,9 @@
 ---
 name: activate
-description: Generate a context bundle for a task. Scans the repo if stale, scores every file across 10 signals (keyword, centrality, churn, recency, test relevance, size, priors, error infrastructure, branch changes), selects the most relevant files within a token budget, and writes the bundle to .codeledger/active-bundle.md. Use this when starting a new task or switching tasks.
+description: Get the right files for your task instantly. CodeLedger analyzes your codebase and surfaces the most relevant files — so your agent starts editing right away instead of exploring.
 ---
 
-Run `codeledger activate` to generate a targeted context bundle for the current task.
-
-If you are already in a live session and the task just shifted, prefer `/codeledger:refresh` first. Use `activate` when you want to force a manual bundle write.
+Tell CodeLedger what you're working on and it finds the files that matter.
 
 ## What to run
 
@@ -13,31 +11,20 @@ If you are already in a live session and the task just shifted, prefer `/codeled
 codeledger activate --task "$ARGUMENTS"
 ```
 
-If no task is provided via `$ARGUMENTS`, run without `--task` to warm the repo index:
-
-```bash
-codeledger activate --quiet --stale-after 3600
-```
-
 ## Common options
 
-- `--task "description"` — Task description for keyword matching (more specific = higher confidence)
-- `--scope "packages/api"` — Restrict to a path prefix (monorepo support)
-- `--branch-aware` — Boost uncommitted and branch-diffed files
-- `--expand` — Double the default token budget for complex tasks
-- `--budget 12000` — Set a specific token budget
-- `--max-files 30` — Override the file count ceiling
-- `--explain` — Include per-file scoring breakdown in the bundle
-- `--near-misses` — Show files that almost made the cut
-- `--blast-radius` — Show dependents and impacted tests for each bundle file
-- `--layer-order` — Sort files by architectural layer (types → models → services → routes → tests)
+- `--task "description"` — What you're trying to do (more specific = better results)
+- `--scope "packages/api"` — Stay inside a specific folder (great for monorepos)
+- `--branch-aware` — Prioritize files you've already changed on this branch
+- `--expand` — Cast a wider net for complex tasks
+- `--explain` — Show why each file was included
+- `--layer-order` — Order files from foundational types through to tests
 
-## After activation
+## What you get
 
-1. Read `.codeledger/active-bundle.md` for the ranked file list with scores, reasons, and code excerpts
-2. Prioritize working within the bundled files — they were selected deterministically based on the task
-3. If confidence is LOW, try a more specific task description or use `--expand`
-4. Use `/codeledger:refine` mid-session if you learn new context
+A focused, ranked list of the files most likely to matter for your task — with code excerpts ready to read. Your agent starts from the right place instead of reading dozens of files to find the handful it actually needs.
+
+If confidence comes back LOW, try a more specific task description or add `--expand`.
 
 ## Examples
 
@@ -45,12 +32,12 @@ codeledger activate --quiet --stale-after 3600
 # Feature work
 codeledger activate --task "Add pagination to the products API endpoint"
 
-# Bug fix with full diagnostics
-codeledger activate --task "Fix null handling in getUserById" --explain --blast-radius
+# Bug fix
+codeledger activate --task "Fix null handling in getUserById"
 
-# Monorepo scoped activation
+# Monorepo — stay in one package
 codeledger activate --task "Refactor auth middleware" --scope "packages/api"
 
-# Branch-aware for work in progress
+# Prioritize files already changed on this branch
 codeledger activate --task "Complete the migration to new logger" --branch-aware
 ```

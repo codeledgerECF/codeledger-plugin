@@ -1,56 +1,35 @@
 ---
 name: status
-description: Show the current CodeLedger session status including active bundle info, session metrics (recall, precision, token savings), and progress since last activation. Use this to check how the session is going.
+description: See how your session is going — which files are in focus, what's been done, and how accurately CodeLedger predicted the files you actually needed.
 ---
 
-Check the current CodeLedger session status.
+Check what's happening in the current session.
 
 ## What to run
 
-Run these commands to understand the current state:
-
 ```bash
-# Inspect active broker state first
+# What's in focus right now
 codeledger broker current --json
 
-# Inspect recent truth tail
-codeledger broker timeline --limit 10 --json
-
-# Show session-end metrics (recall, precision, token savings)
-codeledger session-summary
-
-# Show progress snapshot (commits, changed files, remaining bundle files)
+# Summary of what was done and what's left
 codeledger session-progress
 
-# List all active sessions
-codeledger sessions
+# End-of-session accuracy report
+codeledger session-summary
 ```
 
 ## What each command shows
 
-### session-summary
-- **Bundle recall** — What percentage of files you actually changed were predicted by the bundle
-- **Bundle precision** — What percentage of bundled files you actually needed
-- **Token savings** — Bundle size vs full repo size (context reduction percentage)
-
 ### session-progress
-- Commits made this session
-- Files changed (with diffs)
-- Uncommitted work
-- Bundle files not yet touched (remaining work hints)
+A ground-truth view of the session from git: commits made, files changed, uncommitted work, and files not yet touched. Useful after a long session or after context compaction to re-orient.
 
-### sessions
-- All active CodeLedger sessions
-- File overlap between concurrent sessions (collision detection)
+### session-summary
+How well CodeLedger predicted the files you actually changed:
+- **Coverage** — Did the suggested files include the ones you ended up editing?
+- **Focus** — Were the suggested files mostly useful, or did they include a lot of noise?
+- **Token savings** — How much context was excluded compared to the full repo
 
-### broker current / timeline
-- **Current bundle** — what files CodeLedger thinks matter right now
-- **Bundle delta** — what changed after the latest task shift
-- **Timeline tail** — what was actually observed, validated, blocked, or corrected recently
+High coverage means the task description was clear and CodeLedger got it right. Low focus means the selection could have been tighter — try a more specific task description next time.
 
-## Interpreting results
-
-- **High recall (>80%)** — The bundle covered most of what you needed
-- **Low recall** — Task description may have been too vague, or the task diverged from the original plan
-- **High precision (>60%)** — Bundle was focused; minimal wasted context
-- **Low precision** — Budget may be too generous; try tightening with `--budget` or `--max-files`
+### broker current
+Which files CodeLedger is currently focused on and what changed when the task last shifted.

@@ -1,6 +1,6 @@
 # Cowork Snapshot
 
-Write a progress snapshot for session continuity.
+Save your place so the session can continue seamlessly after any interruption.
 
 ## Usage
 
@@ -10,37 +10,23 @@ Write a progress snapshot for session continuity.
 
 ## What It Does
 
-Captures the current session state to `.codeledger/progress-snapshot.json`:
-
 ```bash
 codeledger cowork-snapshot --workspace .
 ```
 
-The snapshot includes:
-- **Last intent** — what the session is working on
-- **Bundle hash** — workspace fingerprint for change detection
-- **Files read** — which bundle files have been accessed
-- **Suggested next files** — top 5 unread files from the bundle
+Saves the current session state — what you're working on, which files matter, what's been covered, and what's still pending. If the session is interrupted or context resets, this is what gets the agent back on track instantly.
 
 ## When to Use
 
-- Before long operations that might trigger context compaction
-- When you want to checkpoint your progress
-- When switching between tasks temporarily
-- After context compaction, read the snapshot to re-orient
+- Before a long operation you're not sure will complete cleanly
+- When switching tasks temporarily and coming back later
+- Any time you want to mark your progress explicitly
 
-## Automatic Usage
+## Automatic
 
-This command runs automatically via the **PreCompact** hook — you usually don't need to call it manually. But it's available if you want an explicit checkpoint.
-
-## After Compaction
-
-If context compaction occurs, read `.codeledger/progress-snapshot.json` to recover:
-- What the task was
-- Which files matter
-- What's been read vs. what's still pending
+This runs automatically before context compaction, so you usually don't need to call it manually. It's available when you want an explicit checkpoint.
 
 ## Options
 
-- `--workspace .` — Workspace root (default: current directory)
-- `--quiet` — Suppress stdout output
+- `--workspace .` — Project root (default: current directory)
+- `--quiet` — Suppress output

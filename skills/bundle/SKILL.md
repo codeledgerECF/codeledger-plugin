@@ -1,9 +1,9 @@
 ---
 name: bundle
-description: Generate a context bundle and display it without writing to disk. Use this to preview what files CodeLedger would select for a task, or to get structured JSON output for further processing.
+description: Preview which files CodeLedger would select for a task before committing to it. See the ranked results, understand the selections, and optionally get JSON output for scripting.
 ---
 
-Run `codeledger bundle` to generate a context bundle and display it.
+See which files CodeLedger considers most relevant for a task — without changing anything.
 
 ## What to run
 
@@ -13,31 +13,26 @@ codeledger bundle --task "$ARGUMENTS"
 
 ## Common options
 
-- `--task "description"` — Task description (required)
-- `--json` — Output structured JSON instead of markdown
-- `--explain` — Include per-file scoring breakdown (keyword, centrality, churn, etc.)
-- `--near-misses` — Show files that almost made the cut with their scores and budget gaps
-- `--blast-radius` — Show dependents and impacted tests for each selected file
-- `--scope "path/prefix"` — Restrict candidates to a path prefix
-- `--budget 12000` — Token budget override
-- `--max-files 30` — File count ceiling override
-- `--expand` — Double the default budget
-- `--layer-order` — Sort by architectural layer
+- `--task "description"` — What you're working on (required)
+- `--json` — Structured JSON output for scripting
+- `--explain` — Show why each file was selected
+- `--scope "path/prefix"` — Limit to a specific folder
+- `--expand` — Cast a wider net
+- `--layer-order` — Order files from foundational types through to tests
 
-## When to use this vs activate
+## bundle vs activate
 
-- Use **bundle** to preview or inspect what CodeLedger would select, without writing `.codeledger/active-bundle.md`
-- Use **activate** when you want to write the bundle to disk for the agent to consume
-- Use `--json` with **bundle** to pipe structured output into other tools
+- Use **bundle** to preview results without changing anything — good for checking before you commit to a direction
+- Use **activate** when you're ready to start working and want the full experience
 
 ## Examples
 
 ```bash
-# Preview bundle for a task
+# Preview file selection for a task
 codeledger bundle --task "Add user authentication"
 
-# Full diagnostic view
-codeledger bundle --task "Fix race condition in cache" --explain --near-misses --blast-radius
+# See why each file was included
+codeledger bundle --task "Fix race condition in cache" --explain
 
 # JSON output for scripting
 codeledger bundle --task "Refactor database layer" --json

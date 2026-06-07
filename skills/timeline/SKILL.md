@@ -1,9 +1,9 @@
 ---
 name: timeline
-description: Read the recent live truth ledger tail without rereading the entire timeline. Use this to recover session state after compaction or to understand what was actually observed, validated, blocked, or corrected.
+description: Review recent session activity — what happened, what changed, and where things stand. Particularly useful after context compaction to get back up to speed quickly.
 ---
 
-Run `codeledger broker timeline` to inspect the recent session truth tail.
+See what happened recently in the session.
 
 ## What to run
 
@@ -13,9 +13,9 @@ codeledger broker timeline --limit 10 --json
 
 ## When to use
 
-- after compaction
-- when checking what changed since the last task
-- before making claims about work that already happened
+- After context compaction — get back up to speed without re-reading the conversation
+- Before making a change — confirm what's already been done
+- When switching between tasks — see the recent history at a glance
 
 ## Example
 

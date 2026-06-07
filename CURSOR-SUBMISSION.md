@@ -47,18 +47,35 @@ https://codeledger.dev
 
 ---
 
+## Plugin manifest location
+
+```
+.cursor-plugin/plugin.json
+```
+
+Cursor discovers components from their default directories automatically. The
+manifest only needs to declare the `name`; all other fields add marketplace
+metadata.
+
+---
+
 ## What this plugin distributes
 
 | Type | Contents |
 |------|----------|
-| **MCP server** | 14 tools: context selection, replay, reasoning, system map, panel cockpit |
+| **MCP server** | 15 tools: context selection, replay, reasoning, system map, panel cockpit |
 | **Rules** | `rules/codeledger.mdc` — agent protocol: use MCP before browsing files |
-| **Skills** | activate, refresh, bundle, refine, explain, current, timeline, status, cowork-* |
+| **Skills** | activate, refresh, bundle, refine, explain, current, timeline, status |
 | **Hooks** | SessionStart, UserPromptSubmit, PreToolUse (Edit/Write), PreCompact, Stop |
 
 ---
 
-## MCP Tools (14)
+## MCP Tools (15)
+
+### Session Start (Required)
+| Tool | What it does |
+|------|-------------|
+| `get_activation_payload` | **Call this first.** Activates context for a task, returns bundle + next steps |
 
 ### Core
 | Tool | What it does |
