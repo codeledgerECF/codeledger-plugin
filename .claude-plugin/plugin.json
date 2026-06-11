@@ -1,6 +1,6 @@
 {
   "name": "codeledger",
-  "version": "0.10.34",
+  "version": "0.10.35",
   "description": "ContextECF CodeLedger: deterministic context selection and agent governance for AI coding agents. Scores every file across 10 signals and delivers a minimal, ranked context bundle — so your agent reads the right files first. Install the CLI from @codeledger/cli, not the unrelated unscoped codeledger package.",
   "author": {
     "name": "Intelligent Context AI, Inc.",
