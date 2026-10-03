@@ -4,12 +4,15 @@
 set -euo pipefail
 
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# Hook input arrives as JSON on stdin; keep it for the session resolver.
+if [ ! -t 0 ]; then CL_HOOK_INPUT="$(cat 2>/dev/null || true)"; else CL_HOOK_INPUT=""; fi
+export CL_HOOK_INPUT
 CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 
-# Read tool name from stdin (JSON hook input)
+# Tool name from the JSON hook input
 TOOL_NAME=""
 if command -v jq >/dev/null 2>&1; then
-  TOOL_NAME=$(jq -r '.tool_name // empty' 2>/dev/null) || true
+  TOOL_NAME=$(printf '%s' "$CL_HOOK_INPUT" | jq -r '.tool_name // empty' 2>/dev/null) || true
 fi
 
 # Only trigger on file-editing tools

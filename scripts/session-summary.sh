@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# session-summary.sh — Stop hook: show session-end metrics and clean up.
+# session-summary.sh — SessionEnd hook: show session-end metrics and clean up.
 # Prints recall, precision, and token savings, then removes transient files.
+# Registered on SessionEnd (fires once), not Stop (fires after every turn).
 set -euo pipefail
 
 # Clean up the one-shot reminder marker
@@ -10,6 +11,9 @@ CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
   exit 0
 }
 
+# Hook input arrives as JSON on stdin; keep it for the session resolver.
+if [ ! -t 0 ]; then CL_HOOK_INPUT="$(cat 2>/dev/null || true)"; else CL_HOOK_INPUT=""; fi
+export CL_HOOK_INPUT
 CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 
 if [ -n "$CL_SID" ]; then

@@ -124,7 +124,7 @@ fi
 
 mkdir -p .codeledger/runtime
 
-CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
+CL_SID=$(CL_HOOK_INPUT="$PAYLOAD" "${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 
 # Persist the latest plugin-facing retrieval state for agents to inspect during the session.
 # `broker sync` applies the meaningful-task rule and writes these artifacts in one

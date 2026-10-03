@@ -10,7 +10,19 @@ CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
   exit 0
 }
 
-CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
+# Hook input arrives as JSON on stdin; keep it for the session resolver.
+if [ ! -t 0 ]; then CL_HOOK_INPUT="$(cat 2>/dev/null || true)"; else CL_HOOK_INPUT=""; fi
+export CL_HOOK_INPUT
+
+# Establish this conversation's session from the Claude session_id (also
+# exports CODELEDGER_SESSION for Bash tool calls via CLAUDE_ENV_FILE).
+CL_SID=""
+if [ -n "$CL_HOOK_INPUT" ] && [ -z "${CODELEDGER_SESSION:-}" ]; then
+  CL_SID=$(printf '%s' "$CL_HOOK_INPUT" | $CL_CMD hooks claude session-start 2>/dev/null) || CL_SID=""
+fi
+if [ -z "$CL_SID" ]; then
+  CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
+fi
 if [ -z "$CL_SID" ]; then
   CL_SID=$($CL_CMD session-init --quiet 2>/dev/null) || true
 fi

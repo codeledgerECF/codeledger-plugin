@@ -8,6 +8,9 @@ CL_CMD=$("${PLUGIN_ROOT}/scripts/find-cli.sh" 2>/dev/null) || {
   exit 0
 }
 
+# Hook input arrives as JSON on stdin; keep it for the session resolver.
+if [ ! -t 0 ]; then CL_HOOK_INPUT="$(cat 2>/dev/null || true)"; else CL_HOOK_INPUT=""; fi
+export CL_HOOK_INPUT
 CL_SID=$("${PLUGIN_ROOT}/scripts/resolve-session.sh" 2>/dev/null || true)
 
 if [ -n "$CL_SID" ]; then
